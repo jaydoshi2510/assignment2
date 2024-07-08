@@ -3,32 +3,32 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 // Import routes
-const cart= require('./cart');
-const comment = require('./comment');
-const order = require('./order');
-const product = require('./product');
-const user = require('./user');
+const user = require('./routes/user');
+const product = require('./routes/product');
+const cart= require('./routes/cart');
+const comment = require('./routes/comment');
+const order = require('./routes/order');
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 
-// Middleware
+// Body Parser
 app.use(bodyParser.json());
 
 // MongoDB Connection
-const MONGODB_URI = 'mongodb://localhost:27017/your-database-name';
+const MONGODB_URI = 'mongodb+srv://jaydoshi687:G8eGWwl0pCOTJTzP@cluster0.mycoebm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
-// Routes
+// Define Routes
+app.use('/api/users', user);
+app.use('/api/products', product);
 app.use('/api/carts', cart);
 app.use('/api/comments', comment);
 app.use('/api/orders', order);
-app.use('/api/products', product);
-app.use('/api/users', user);
 
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
